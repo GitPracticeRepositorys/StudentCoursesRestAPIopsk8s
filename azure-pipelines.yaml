@@ -23,34 +23,5 @@ stages:
             inputs:
               artifactName: 'manifests'
               path: 'kubernetes'
-      **//        
-      - job: 'qadeploy'
-        displayName: 'Deploy to QA'
-        dependsOn: 'buildnpush'
-        steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'manifests'
-              downloadPath: '$(System.ArtifactsDirectory)/manifests'
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'aksfromreleases'
-              namespace: default
-              command: 'apply'
-              useConfigurationFile: true
-              configurationType: configuration
-              configuration: '$(System.ArtifactsDirectory)/manifests/mysql-deploy.yaml'
-          - script: 'ls $(System.ArtifactsDirectory)'
-          - script: 'ls $(System.ArtifactsDirectory)/manifests'
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'aksfromreleases'
-              namespace: default
-              command: 'apply'
-              useConfigurationFile: true
-              configurationType: configuration
-              configuration: '$(System.ArtifactsDirectory)/manifests/scr-deploy.yaml'
-          //**    
+      
               
