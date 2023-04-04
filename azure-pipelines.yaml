@@ -23,6 +23,7 @@ stages:
             inputs:
               artifactName: 'manifests'
               path: 'kubernetes'
+      **//        
       - job: 'qadeploy'
         displayName: 'Deploy to QA'
         dependsOn: 'buildnpush'
@@ -51,5 +52,5 @@ stages:
               useConfigurationFile: true
               configurationType: configuration
               configuration: '$(System.ArtifactsDirectory)/manifests/scr-deploy.yaml'
-              
+          //**    
               
