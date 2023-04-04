@@ -4,5 +4,5 @@ resources:
 namePrefix: qa-
 images:
   - name: courses
-    newName: shaikkhajaibrahim/courses
+    newName: shivakrishna99/courses
     newTag: qa-latest
