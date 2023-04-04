@@ -16,7 +16,8 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh 'kubectl apply -k kustomization.yaml'
+                sh 'kubectl apply -f deployment.yaml'
+                sh 'kubectl apply -f svc.yaml'
             }
         }
 
