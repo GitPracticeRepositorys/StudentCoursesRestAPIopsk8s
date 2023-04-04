@@ -16,8 +16,8 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh "cd deployments/courses/overlays/develop && edit set image courses=shivakrishna/courses:develop-$env.BUILD_ID"
-                sh 'kubectl apply -f deployments/courses/overlays/develop'
+                sh "cd deployments/courses/overlays/develop && kustomize edit set image courses=shivakrishna/courses:develop-$env.BUILD_ID"
+                sh 'kubectl apply -k deployments/courses/overlays/develop'
             }
         }
 
