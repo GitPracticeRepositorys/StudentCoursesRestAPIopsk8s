@@ -16,7 +16,6 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh "cd deployments/courses/overlay/develop && kustomize edit set image courses=shivakrishna99/courses:develop-$env.BUILD_ID"
                 sh 'kubectl apply -k kustomization.yaml'
             }
         }
