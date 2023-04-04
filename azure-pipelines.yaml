@@ -16,7 +16,7 @@ stages:
           - task: Docker@2
             inputs:
               containerRegistry: 'Docker'
-              repository: 'shaikkhajaibrahim/azdevopsstudentsregister'
+              repository: 'shivakrishna99/azdevopsstudentsregister'
               command: 'buildAndPush'
               tags: "latest"
           - task: PublishPipelineArtifact@1
