@@ -16,7 +16,8 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh "kubectl apply -f deployments/courses/deployments.yaml"
+                sh "kubectl apply -f ./kubernetes/mysql-deploy.yaml"
+                sh "kubectl apply -f ./kubernetes/scr-deploy.yaml
             }
         }
 
