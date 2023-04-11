@@ -23,12 +23,14 @@ stages:
             inputs:
               artifactName: 'manifests'
               path: 'kubernetes'
+
 ---
 pool:
+  name: 'Azure Pipelines'
   vmImage: 'ubuntu-latest'
 
 trigger:
-- developer
+  - developer
 
 steps:
 
@@ -50,7 +52,7 @@ steps:
     kubernetesServiceConnection: 'AWS-EKS-Connection' # the name of the AWS service connection
     manifests: |
       ./kubernetes/mysql-deploy.yaml
-      ./kubernetes/scr-deploy.yaml #deploy scr
+      ./kubernetes/scr-deploy.yaml # the path to your service and ingress YAML files
     secretType: 'dockerRegistry'
     containerRegistryType: 'Container Registry'
-    dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection            
+    dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection
