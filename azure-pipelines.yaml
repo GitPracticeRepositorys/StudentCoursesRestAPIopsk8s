@@ -1,4 +1,3 @@
----
 pool:
   name: 'Azure Pipelines'
   vmImage: 'ubuntu-latest'
@@ -24,35 +23,30 @@ stages:
               artifactName: 'manifests'
               path: 'kubernetes'
 
----
-pool:
-  name: 'Azure Pipelines'
-  vmImage: 'ubuntu-latest'
-
-trigger:
-  - developer
-
-steps:
-
-- task: KubernetesCLI@1
-  displayName: 'Use kubectl'
-  inputs:
-    kubernetesServiceConnection: 'AWS-EKS-Connection' # the name of the AWS service connection
-    kubectlCommand: 'apply'
-    arguments: '-f ./kubernetes/mysql-deploy.yaml'  # the path to your deployment YAML file 
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Container Registry'
-    dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection
-    outputFormat: 'json'
-
-- task: KubernetesManifest@0
-  displayName: 'Deploy to EKS'
-  inputs:
-    action: 'deploy'
-    kubernetesServiceConnection: 'AWS-EKS-Connection' # the name of the AWS service connection
-    manifests: |
-      ./kubernetes/mysql-deploy.yaml
-      ./kubernetes/scr-deploy.yaml # the path to your service and ingress YAML files
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Container Registry'
-    dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection
+  - stage: 'deploy'
+    displayName: 'Deploy to EKS'
+    jobs:
+      - job: 'deploy'
+        displayName: 'Deploy to EKS'
+        steps:
+          - task: KubernetesCLI@1
+            displayName: 'Use kubectl'
+            inputs:
+              kubernetesServiceConnection: 'AWS-EKS-Connection' # the name of the AWS service connection
+              kubectlCommand: 'apply'
+              arguments: '-f ./kubernetes/mysql-deploy.yaml'  # the path to your deployment YAML file 
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Container Registry'
+              dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection
+              outputFormat: 'json'
+          - task: KubernetesManifest@0
+            displayName: 'Deploy to EKS'
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'AWS-EKS-Connection' # the name of the AWS service connection
+              manifests: |
+                ./kubernetes/mysql-deploy.yaml
+                ./kubernetes/scr-deploy.yaml # the path to your service and ingress YAML files
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Container Registry'
+              dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection
