@@ -50,7 +50,7 @@ steps:
     kubernetesServiceConnection: 'AWS-EKS-Connection' # the name of the AWS service connection
     manifests: |
       ./kubernetes/mysql-deploy.yaml
-      ./kubernetes/scr-deploy.yaml
+      ./kubernetes/scr-deploy.yaml #deploy scr
     secretType: 'dockerRegistry'
     containerRegistryType: 'Container Registry'
     dockerRegistryServiceConnection: 'Docker-Hub-Connection' # the name of the Docker Hub service connection            
