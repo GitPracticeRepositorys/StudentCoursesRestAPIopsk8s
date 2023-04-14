@@ -14,7 +14,7 @@ stages:
         steps:
           - task: Docker@2
             inputs:
-              containerRegistry: 'Docker'
+              containerRegistry: 'Docker-Hub-Connection'
               repository: 'shivakrishna99/azdevopsstudentsregister'
               command: 'buildAndPush'
               tags: "latest"
