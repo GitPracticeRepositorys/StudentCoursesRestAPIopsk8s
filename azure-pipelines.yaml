@@ -1,6 +1,6 @@
 pool:
-  name: 'Azure Pipelines'
-  vmImage: 'default'
+  name: 'default'
+  vmImage: 'ubuntu-latest'
 
 trigger:
   - developer
