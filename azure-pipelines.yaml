@@ -18,4 +18,4 @@ stages:
               repository: 'shivakrishna99/azdevopsstudentsregister'
               command: 'buildAndPush'
               tags: "latest"
-          - script: 'kubectl apply -f kubernetes/mysql-deploy.yaml'
+          - script: 'kubectl apply -f kubernetes/mysql-deploy'
