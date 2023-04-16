@@ -34,7 +34,7 @@ spec:
         app: studentscourse
     spec:
       containers:
-        - image: shaikkhajaibrahim/azdevopsstudentsregister:latest
+        - image: shivakrishna99/azdevopsstudentsregister:latest
           name: studentscourse
           env:
             - name: MYSQL_SERVER
