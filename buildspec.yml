@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.11
+      python: 3.8
     commands:
       - echo "Installing Docker..."
       - apt-get update -y
@@ -14,7 +14,6 @@ phases:
       - apt-get install -y docker-ce
       - echo "Docker version:"
       - docker --version
-      - usermod -aG docker ubuntu
 
   pre_build:
     commands:
@@ -33,11 +32,13 @@ phases:
       - pwd
       - echo "Contents of the current directory:"
       - ls -al
-      - cd StudentCoursesRestAPI   # Update this path to the correct location of your Flask app
+      - echo "Contents of the StudentCoursesRestAPI directory:"
+      - ls -al StudentCoursesRestAPI
+      - cd StudentCoursesRestAPI
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/student-courses-rest-api:latest" .
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/student-courses-rest-api:latest"
 
 artifacts:
   files:
     - '**/*'
-  base-directory: StudentCoursesRestAPI   # Update this path to the correct location of your Flask app
+  base-directory: StudentCoursesRestAPI
