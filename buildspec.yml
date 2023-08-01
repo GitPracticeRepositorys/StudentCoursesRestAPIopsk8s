@@ -1,0 +1,42 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Installing Docker..."
+      - apt-get update -y
+      - apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+      - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+      - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      - apt-get update -y
+      - apt-get install -y docker-ce
+      - echo "Docker version:"
+      - docker --version
+
+  pre_build:
+    commands:
+      - echo "Retrieving Docker registry credentials from AWS SSM Parameter Store..."
+      - DOCKER_REGISTRY_USERNAME=$(aws ssm get-parameter --name "/myapp/docker-credentials/username" --with-decryption --query "Parameter.Value" --output text)
+      - DOCKER_REGISTRY_PASSWORD=$(aws ssm get-parameter --name "/myapp/docker-credentials/password" --with-decryption --query "Parameter.Value" --output text)
+      - DOCKER_REGISTRY_URL=$(aws ssm get-parameter --name "/myapp/docker-registry/url" --with-decryption --query "Parameter.Value" --output text)
+      - echo "Logging in to Docker registry..."
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+
+  build:
+    commands:
+      - echo "Cloning the GitHub repository..."
+      - git clone https://github.com/GitPracticeRepositorys/StudentCoursesRestAPI.git
+      - echo "Current working directory:"
+      - pwd
+      - echo "Contents of the current directory:"
+      - ls -al
+      - cd StudentCoursesRestAPI   # Update this path to the correct location of your Flask app
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/student-courses-rest-api:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/student-courses-rest-api:latest"
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: StudentCoursesRestAPI   # Update this path to the correct location of your Flask app
