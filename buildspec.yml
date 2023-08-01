@@ -14,6 +14,7 @@ phases:
       - apt-get install -y docker-ce
       - echo "Docker version:"
       - docker --version
+      - usermod -aG docker ubuntu
 
   pre_build:
     commands:
