@@ -34,3 +34,17 @@ spec:
           env:
             - name: MYSQL_SERVER
               value: mysql-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: courses-svc
+  labels:
+    app: courses
+    purpose: service
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: courses
+  type: LoadBalancer
